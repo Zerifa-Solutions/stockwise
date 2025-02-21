@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Zerifa\StockWise\Service\AlternativeProduct\CacheServiceInterface"
+                 alias="Zerifa\StockWise\Service\AlternativeProduct\CacheService"/>
+
+        <service id="Zerifa\StockWise\Service\AlternativeProduct\AlternativeProductServiceInterface"
+                 alias="Zerifa\StockWise\Service\AlternativeProduct\AlternativeProductService"/>
+
+        <service id="Zerifa\StockWise\Service\Product\ProductServiceInterface"
+                 alias="Zerifa\StockWise\Service\Product\ProductService"/>
+
+        <service id="Zerifa\StockWise\Service\StockNotification\StockNotificationServiceInterface"
+                 alias="Zerifa\StockWise\Service\StockNotification\StockNotificationService"/>
+
+        <service id="Zerifa\StockWise\Service\StockNotification\EmailServiceInterface"
+                 alias="Zerifa\StockWise\Service\StockNotification\EmailService"/>
+    </services>
+</container>

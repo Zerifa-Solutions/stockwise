@@ -1,0 +1,82 @@
+{% sw_extends '@Storefront/storefront/component/product/card/action.html.twig' %}
+
+{% block component_product_box_action_buy %}
+    {% if product.stock <= 0 %}
+        {# Replace "Add to Cart" with "Details" for Out-of-stock products #}
+        <div class="d-grid">
+            <a href="{{ seoUrl('frontend.detail.page', {productId: id}) }}"
+               class="btn btn-light btn-detail"
+               title="{{ 'listing.boxProductDetails'|trans|striptags }}">
+                {{ 'listing.boxProductDetails'|trans|sw_sanitize }}
+            </a>
+        </div>
+    {% else %}
+        {% if zerOriginalProductSwitch is defined %}
+            <form action="{{ path('frontend.checkout.line-item.add') }}"
+                  method="post"
+                    {# Reload the Cart and stay on Offcanvas page #}
+                    {% if zerAlternativeRedirectTo is defined and zerAlternativeRedirectTo == 'frontend.cart.offcanvas' %}
+                        data-zer-switch-product="{{ id }}"
+                    {% endif %}
+                  class="buy-widget">
+                {% block component_product_box_action_form %}{{ parent() }}{% endblock %}
+            </form>
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{# Fix the RedirectTo for "Switch product" action #}
+{% block component_product_box_action_buy_redirect_input %}
+    {% if zerOriginalProductSwitch is defined and zerAlternativeRedirectTo is defined %}
+        <input type="hidden"
+               name="redirectTo"
+               value="{{ zerAlternativeRedirectTo }}">
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{# Adapt the LineItems payload #}
+{% block component_product_box_action_buy_info %}
+    {{ parent() }}
+
+    {% set zerAlternativeProductPayload = {} %}
+
+    {% if zerOriginalProductId is defined or page.product.id is defined %}
+        {% if zerOriginalProductId is not defined %}
+            {% set zerOriginalProductId = page.product.id %}
+        {% endif %}
+
+        {% set zerAlternativeProductPayload = zerAlternativeProductPayload|merge({
+            (constant('Zerifa\\StockWise\\Setting\\LineItemPayload::ORIGINAL_PRODUCT_ID')): zerOriginalProductId
+        }) %}
+    {% endif %}
+
+    {% if zerOriginalProductSwitch is defined %}
+        {% set zerAlternativeProductPayload = zerAlternativeProductPayload|merge({
+            (constant('Zerifa\\StockWise\\Setting\\LineItemPayload::ORIGINAL_PRODUCT_SWITCH')): zerOriginalProductSwitch
+        }) %}
+    {% endif %}
+
+    {% if zerAlternativeProductPayload|length > 0 %}
+        <input type="hidden"
+               name="lineItems[{{ id }}][payload]"
+               value="{{ zerAlternativeProductPayload|json_encode }}">
+    {% endif %}
+{% endblock %}
+
+{# Adapt the "Add to Cart" with "Switch product" button #}
+{% block component_product_box_action_buy_button %}
+    {% if zerOriginalProductSwitch is defined %}
+        <div class="d-grid">
+            <button class="btn btn-buy"
+                    title="{{ "zerifaStockWise.alternativeProducts.replaceButtonTitle"|trans }}">
+                {{ "zerifaStockWise.alternativeProducts.replaceButton"|trans }}
+            </button>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

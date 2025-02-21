@@ -1,0 +1,26 @@
+{% sw_extends '@Storefront/storefront/component/buy-widget/buy-widget.html.twig' %}
+
+{# Initialize flags #}
+{% block buy_widget %}
+    {% set zerHasAlternativeProducts = false %}
+    {% set zerAlternativeSectionId = '' %}
+    {% set zerAlternativePdpDisplayType = config('ZerStockWise.config.pdpDisplayType') %}
+
+    {# PDP display as New section #}
+    {% if page.extensions.zerStockWiseAlternatives is defined %}
+        {% set zerHasAlternativeProducts = true %}
+        {% set zerAlternativeSectionId = 'alternativeProducts-' ~ page.product.id %}
+    {% endif %}
+
+    {# PDP display as Cross-Selling #}
+    {% if page.crossSellings is defined and page.crossSellings.elements is defined %}
+        {% for element in page.crossSellings.elements %}
+            {% if element.crossSelling.type == 'zer-alternative-products' %}
+                {% set zerHasAlternativeProducts = true %}
+                {% set zerAlternativeSectionId =  'cross-selling-tab-' ~ element.crossSelling.id ~ '-pane' %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}

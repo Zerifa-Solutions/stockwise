@@ -1,0 +1,9 @@
+.out-of-stock-actions {
+    .btn-show-alternatives {
+        @extend .btn-buy;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: $spacer-xs;
+    }
+} 

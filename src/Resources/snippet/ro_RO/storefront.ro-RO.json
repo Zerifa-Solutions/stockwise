@@ -1,0 +1,29 @@
+{
+  "zerifaStockWise": {
+    "alternativeProducts": {
+      "title": "Produse similare pentru %productName%",
+      "replaceButton": "Alege acest produs",
+      "replaceButtonTitle": "Înlocuiește cu acest produs similar"
+    },
+    "addToCart": {
+      "button": "Vezi produse similare",
+      "buttonTitle": "Vezi produse similare disponibile"
+    },
+    "checkout": {
+      "proceedWithAvailableItems": {
+        "button": "Continuă cu produsele disponibile",
+        "buttonTitle": "Plasează comanda doar cu produsele disponibile"
+      },
+      "modal": {
+        "title": "Verifică produsele indisponibile",
+        "explanation": "Aceste produse vor fi eliminate din coș.",
+        "submitButton": "Continuă cu produsele disponibile",
+        "cancelButton": "Anulează"
+      }
+    }
+  },
+  "checkout": {
+    "cart-out-of-stock-error": "Unele produse din coșul tău nu sunt în stoc. Te rugăm să verifici produsele similare de mai jos sau să continui doar cu produsele disponibile.",
+    "quantity-adjusted-error": "<strong>%productName%</strong>: Cantitatea a fost ajustată la %availableQuantity% datorită stocului limitat."
+  }
+}

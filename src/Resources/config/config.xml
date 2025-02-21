@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title>Cart Settings</title>
+        <title lang="de-DE">Warenkorb-Einstellungen</title>
+        <title lang="ro-RO">Setări coș</title>
+
+        <input-field type="bool">
+            <name>enableCartQuantityAdjustment</name>
+            <label>Enable Cart Quantity Adjustment</label>
+            <label lang="de-DE">Warenkorb-Mengenanpassung aktivieren</label>
+            <label lang="ro-RO">Activează ajustarea cantității din coș</label>
+            <helpText>If enabled, the cart quantity will be automatically adjusted to match the maximum available stock.</helpText>
+            <helpText lang="de-DE">Wenn aktiviert, wird die Warenkorbmenge automatisch an den maximal verfügbaren Bestand angepasst.</helpText>
+            <helpText lang="ro-RO">Dacă este activat, cantitatea din coș va fi ajustată automat pentru a se potrivi cu stocul maxim disponibil.</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Out of Stock Alternatives Settings</title>
+        <title lang="de-DE">Einstellungen für nicht verfügbare Artikel</title>
+        <title lang="ro-RO">Setări pentru Produse Alternative Indisponibile</title>
+
+        <input-field type="int">
+            <name>maxRecommendations</name>
+            <label>Maximum Similar Products</label>
+            <label lang="de-DE">Maximale ähnliche Produkte</label>
+            <label lang="ro-RO">Număr maxim de produse similare</label>
+            <defaultValue>10</defaultValue>
+        </input-field>
+
+        <input-field type="float">
+            <name>variancePercentage</name>
+            <label>Price Variance Percentage (%)</label>
+            <label lang="de-DE">Preisabweichung in Prozent (%)</label>
+            <label lang="ro-RO">Procentaj varianță preț (%)</label>
+            <helpText>Maximum allowed price difference (in percentage) between the unavailable product and its alternatives.</helpText>
+            <helpText lang="de-DE">Maximal erlaubte Preisabweichung (in Prozent) zwischen dem nicht verfügbaren Produkt und seinen Alternativen.</helpText>
+            <helpText lang="ro-RO">Diferența maximă de preț permisă (în procente) între produsul indisponibil și alternativele sale.</helpText>
+            <defaultValue>20</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>enableCategoryMatching</name>
+            <label>Enable Category Matching</label>
+            <label lang="de-DE">Kategorie-Matching aktivieren</label>
+            <label lang="ro-RO">Activează potrivirea categoriilor</label>
+            <helpText>If enabled, similar products will be selected from the same category as the unavailable product.</helpText>
+            <helpText lang="de-DE">Wenn aktiviert, werden ähnliche Produkte aus derselben Kategorie wie das nicht verfügbare Produkt ausgewählt.</helpText>
+            <helpText lang="ro-RO">Dacă este activat, produsele similare vor fi selectate din aceeași categorie ca și produsul indisponibil.</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>enableManufacturerMatching</name>
+            <label>Enable Manufacturer Matching</label>
+            <label lang="de-DE">Hersteller-Matching aktivieren</label>
+            <label lang="ro-RO">Activează potrivirea producătorilor</label>
+            <helpText>If enabled, similar products will be selected from the same manufacturer as the unavailable product.</helpText>
+            <helpText lang="de-DE">Wenn aktiviert, werden ähnliche Produkte vom selben Hersteller wie das nicht verfügbare Produkt ausgewählt.</helpText>
+            <helpText lang="ro-RO">Dacă este activat, produsele similare vor fi selectate de la același producător ca și produsul indisponibil.</helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>enablePropertyMatching</name>
+            <label>Enable Property Matching</label>
+            <label lang="de-DE">Eigenschafts-Matching aktivieren</label>
+            <label lang="ro-RO">Activează potrivirea proprietăților</label>
+            <helpText>If enabled, alternative products will be selected if they share at least one property (e.g., size, color, material) with the original product.</helpText>
+            <helpText lang="de-DE">Wenn aktiviert, werden alternative Produkte ausgewählt, wenn sie mindestens eine Eigenschaft (z.B. Größe, Farbe, Material) mit dem Originalprodukt gemeinsam haben.</helpText>
+            <helpText lang="ro-RO">Dacă este activat, produsele alternative vor fi selectate dacă au cel puțin o proprietate comună (ex: mărime, culoare, material) cu produsul original.</helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>enableCustomFieldMatching</name>
+            <label>Enable Custom Field Matching</label>
+            <label lang="de-DE">Benutzerdefinierte Felder-Matching aktivieren</label>
+            <label lang="ro-RO">Activează potrivirea câmpurilor personalizate</label>
+            <helpText>If enabled, alternative products will be selected if they share at least one matching custom field value with the original product.</helpText>
+            <helpText lang="de-DE">Wenn aktiviert, werden alternative Produkte ausgewählt, wenn sie mindestens einen übereinstimmenden benutzerdefinierten Feldwert mit dem Originalprodukt gemeinsam haben.</helpText>
+            <helpText lang="ro-RO">Dacă este activat, produsele alternative vor fi selectate dacă au cel puțin o valoare comună în câmpurile personalizate cu produsul original.</helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>enableTagMatching</name>
+            <label>Enable Tag Matching</label>
+            <label lang="de-DE">Tag-Matching aktivieren</label>
+            <label lang="ro-RO">Activează potrivirea etichetelor</label>
+            <helpText>If enabled, alternative products will be selected if they share at least one tag with the original product.</helpText>
+            <helpText lang="de-DE">Wenn aktiviert, werden alternative Produkte ausgewählt, wenn sie mindestens ein Tag mit dem Originalprodukt gemeinsam haben.</helpText>
+            <helpText lang="ro-RO">Dacă este activat, produsele alternative vor fi selectate dacă au cel puțin o etichetă comună cu produsul original.</helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>pdpDisplayType</name>
+            <label>Product Detail Page Display Type</label>
+            <label lang="de-DE">Anzeigetyp auf Produkt-Detail-Seite</label>
+            <label lang="ro-RO">Tip afișare pe pagina de detalii a produsului</label>
+            <helpText>Choose how similar products are displayed on the product detail page.</helpText>
+            <helpText lang="de-DE">Wählen Sie aus, wie ähnliche Produkte auf der Produktdetailseite angezeigt werden.</helpText>
+            <helpText lang="ro-RO">Alegeți cum sunt afișate produsele similare pe pagina de detalii a produsului.</helpText>
+            <options>
+                <option>
+                    <id>crossselling</id>
+                    <name>CrossSelling</name>
+                    <name lang="de-DE">Kreuzverkauf</name>
+                    <name lang="ro-RO">Vânzare încrucișată</name>
+                </option>
+                <option>
+                    <id>section</id>
+                    <name>New Section</name>
+                    <name lang="de-DE">Neue Sektion</name>
+                    <name lang="ro-RO">Secțiune nouă</name>
+                </option>
+            </options>
+            <defaultValue>crossselling</defaultValue>
+        </input-field>
+    </card>
+</config> 

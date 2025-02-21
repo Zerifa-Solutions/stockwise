@@ -1,0 +1,76 @@
+{% block zer_alternative_products %}
+    {% set zerAlternativeDisplayMode = displayMode|default('default') %}
+    {% set zerAlternativeProductsTitle = "zerifaStockWise.alternativeProducts.title"|trans({'%productName%': zerOriginalProductName}) %}
+
+    {% set zerAlternativeProductsConfig = {
+        'border': {
+            'value': false
+        },
+        'rotate': {
+            'value': false
+        },
+        'products': {
+            'value': zerAlternativeProducts
+        },
+        'boxLayout': {
+            'value': 'zer-alternative-products'
+        },
+        'navigation': {
+            'value': true
+        },
+        'displayMode': {
+            'value': zerAlternativeDisplayMode
+        },
+        'verticalAlign': {
+            'value': center
+        }
+    } %}
+
+    {% if zerAlternativeDisplayMode == 'offcanvas' %}
+        {% set zerAlternativeRedirectTo = app.request.get('_route') %}
+        {% set zerAlternativeProductsConfig = zerAlternativeProductsConfig|merge({
+            'elMinWidth': {
+                'value': '250px'
+            }
+        }) %}
+    {% endif %}
+
+    {% if zerAlternativeDisplayMode == 'pdp' %}
+        {% set zerAlternativeProductsConfig = zerAlternativeProductsConfig|merge({
+            'elMinWidth': {
+                'value': '200px'
+            }
+        }) %}
+    {% endif %}
+
+    {% if zerAlternativeDisplayMode == 'default' %}
+        {% set zerAlternativeRedirectTo = app.request.get('_route') %}
+        {% set zerAlternativeProductsConfig = zerAlternativeProductsConfig|merge({
+            'elMinWidth': {
+                'value': '200px'
+            }
+        }) %}
+    {% endif %}
+
+    <div class="product-alternatives-slider">
+        {% block zer_alternative_products_title %}
+            {% if zerAlternativeDisplayMode == 'pdp' %}
+                <h2 id="alternativeProducts-{{ zerOriginalProductId }}">{{ zerAlternativeProductsTitle }}</h2>
+            {% else %}
+                <div class="h6">{{ zerAlternativeProductsTitle }}</div>
+            {% endif %}
+        {% endblock %}
+
+        {% block zer_alternative_products_slider %}
+            {% sw_include "@Storefront/storefront/element/cms-element-product-slider.html.twig" with {
+                sliderConfig: zerAlternativeProductsConfig,
+                element: {
+                    'data': {
+                        'products': zerAlternativeProducts
+                    },
+                    type: 'product-slider'
+                }
+            } %}
+        {% endblock %}
+    </div>
+{% endblock %}
