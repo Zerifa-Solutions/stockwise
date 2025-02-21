@@ -1,0 +1,15 @@
+{% sw_extends '@Storefront/storefront/element/cms-element-product-description-reviews.html.twig' %}
+
+{% block element_product_description_reviews %}
+    {{ parent() }}
+
+    {% if config('ZerStockWise.config.pdpDisplayType') == 'section' and page.extensions.zerStockWiseAlternatives %}
+        {% sw_include "@Storefront/storefront/component/product/zer-alternative-products.html.twig" with {
+            zerAlternativeProducts: page.extensions.zerStockWiseAlternatives,
+            zerAlternativePdpDisplayType: config('ZerStockWise.config.pdpDisplayType'),
+            zerOriginalProductId: page.product.id,
+            zerOriginalProductName: page.product.translated.name,
+            displayMode: 'pdp',
+        } %}
+    {% endif %}
+{% endblock %}

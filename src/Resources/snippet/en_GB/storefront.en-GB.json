@@ -1,0 +1,29 @@
+{
+  "zerifaStockWise": {
+    "alternativeProducts": {
+      "title": "Similar Products for %productName%",
+      "replaceButton": "Choose this product",
+      "replaceButtonTitle": "Replace with this similar product"
+    },
+    "addToCart": {
+      "button": "View Similar Products",
+      "buttonTitle": "View similar available products"
+    },
+    "checkout": {
+      "proceedWithAvailableItems": {
+        "button": "Proceed with available items",
+        "buttonTitle": "Place order with available items only"
+      },
+      "modal": {
+        "title": "Review Out of Stock Items",
+        "explanation": "These items will be removed from your cart.",
+        "submitButton": "Submit order with available items",
+        "cancelButton": "Cancel"
+      }
+    }
+  },
+  "checkout": {
+    "cart-out-of-stock-error": "Some items in your cart are Out of stock. Please review the similar products below or proceed with available items only.",
+    "quantity-adjusted-error": "<strong>%productName%</strong>: Quantity has been adjusted to %availableQuantity% due to limited stock."
+  }
+}

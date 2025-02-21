@@ -1,0 +1,55 @@
+{% sw_extends '@Storefront/storefront/component/line-item/type/product.html.twig' %}
+
+{# We have to extend the entire block because <div class="row line-item-row"> doesn't have a block and we have to
+inject our code so it won't be a Line Break between Product Details & Product Alternative #}
+{% block component_line_item_type_product %}
+    {% if showZerAlternatives is not defined %}
+        {% set showZerAlternatives = true %}
+    {% endif %}
+
+    {# @deprecated tag:v6.7.0 - Line item wrapper element will be `<li>` element instead of `<div>` #}
+    {%- if feature('ACCESSIBILITY_TWEAKS') -%}
+        <li class="{{ lineItemClasses }}">
+    {%- else -%}
+        <div class="{{ lineItemClasses }}" role="listitem">
+    {%- endif -%}
+    <div class="row line-item-row">
+        {% block component_line_item_type_product_col_info %}{{ parent() }}{% endblock %}
+
+        {% block component_line_item_type_product_col_quantity %}{{ parent() }}{% endblock %}
+
+        {% if showTaxPrice %}
+            {% block component_line_item_type_product_col_tax_price %}{{ parent() }}{% endblock %}
+        {% else %}
+            {% block component_line_item_type_product_col_unit_price %}{{ parent() }}{% endblock %}
+        {% endif %}
+
+        {% block component_line_item_type_product_col_total_price %}{{ parent() }}{% endblock %}
+
+        {% if showRemoveButton %}
+            {% block component_line_item_type_product_col_remove %}{{ parent() }}{% endblock %}
+        {% endif %}
+
+        {# HERE!!!! #}
+        {% if showZerAlternatives and lineItem.extensions.zerStockWiseAlternatives %}
+            <div class="line-item-alternatives">
+                {% sw_include "@ZerStockWise/storefront/component/product/zer-alternative-products.html.twig" with {
+                    zerAlternativeProducts: lineItem.extensions.zerStockWiseAlternatives,
+                    zerOriginalProductId: lineItem.id,
+                    zerOriginalProductName: lineItem.label,
+                    zerOriginalProductSwitch: true
+                } %}
+            </div>
+        {% endif %}
+    </div>
+
+    {% if displayMode === 'order' %}
+        {% block component_line_item_type_product_downloads_table %}{{ parent() }}{% endblock %}
+    {% endif %}
+    {# @deprecated tag:v6.7.0 - Line item wrapper element will be `<li>` element instead of `<div>` #}
+    {%- if not feature('ACCESSIBILITY_TWEAKS') -%}
+        </div>
+    {%- else -%}
+        </li>
+    {%- endif -%}
+{% endblock %}

@@ -1,0 +1,151 @@
+{% block zer_outofstock_items_modal %}
+    <div class="modal modal-lg fade" id="zerOutofstockItemsModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
+         aria-hidden="true">
+        {% block zer_outofstock_items_modal_dialog %}
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    {% block zer_outofstock_items_modal_header %}
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ "zerifaStockWise.checkout.modal.title"|trans }}</h5>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close">
+                            </button>
+                        </div>
+                    {% endblock %}
+
+                    {% block zer_outofstock_items_modal_body %}
+                        <div class="modal-body">
+                            <p>{{ "zerifaStockWise.checkout.modal.explanation"|trans }}</p>
+                            <div class="out-of-stock-list mb-3">
+                                {% block zer_outofstock_items_modal_table_header %}
+                                    {% sw_include '@Storefront/storefront/component/checkout/cart-header.html.twig' with {
+                                        showTaxPrice: false,
+                                        showRemoveColumn: false
+                                    } %}
+                                {% endblock %}
+
+                                {% for lineItem in outOfStockProducts %}
+                                    {% block zer_outofstock_items_modal_table_row %}
+                                        {% sw_include '@Storefront/storefront/component/line-item/line-item.html.twig' with {
+                                            showQuantitySelect: false,
+                                            showTaxPrice: true,
+                                            showRemoveButton: false,
+                                            showZerAlternatives: false
+                                        } %}
+                                    {% endblock %}
+                                {% endfor %}
+                            </div>
+
+                            {% set orderAvailableFormAction = path('frontend.checkout.zer-order-available-items') %}
+                            {% set formAddHistoryOptions = {
+                                entries: [{
+                                    state: {},
+                                    title: 'account.ordersTitle'|trans,
+                                    url: path('frontend.account.order.page')
+                                }]
+                            } %}
+                            {% set stockStatus = {
+                                availableProducts: page.extensions.zerStockWiseStockStatus.availableProducts,
+                                outOfStockProducts: page.extensions.zerStockWiseStockStatus.outOfStockProducts
+                            } %}
+
+                            <form action="{{ orderAvailableFormAction }}"
+                                  method="post"
+                                  class="order-available-form"
+                                  data-form-preserver="true"
+                                  data-form-submit-loader="true"
+                                  data-form-add-history="true"
+                                  data-form-add-history-options="{{ formAddHistoryOptions|json_encode }}"
+                                  id="orderAvailableForm">
+
+                                <input type="text" name="hash" hidden="hidden" value="{{ page.cart.getHash }}"/>
+                                <input type="text" name="stockStatus" hidden="hidden" value="{{ stockStatus|json_encode }}"/>
+
+                                {% block zer_outofstock_items_modal_confirm_tos %}
+                                    <div class="confirm-tos">
+                                        <div class="card checkout-card">
+                                            <div class="card-body">
+                                                {% block zer_outofstock_items_modal_confirm_tos_header %}
+                                                    <div class="card-title">
+                                                        {{ 'checkout.confirmTermsHeader'|trans|sw_sanitize }}
+                                                    </div>
+                                                {% endblock %}
+
+                                                {% block zer_outofstock_items_modal_confirm_revocation_notice %}
+                                                    <p class="revocation-notice">
+                                                        {{ 'checkout.confirmRevocationNotice'|trans({
+                                                            '%url%': path('frontend.cms.page', { id: config('core.basicInformation.revocationPage') })
+                                                        })|raw }}
+                                                    </p>
+                                                {% endblock %}
+
+                                                {% block zer_outofstock_items_modal_confirm_tos_control %}
+                                                    <div class="form-check">
+                                                        {% block zer_outofstock_items_modal_confirm_tos_control_checkbox %}
+                                                            <input type="checkbox"
+                                                                   class="checkout-confirm-tos-checkbox form-check-input{% if formViolations.getViolations('/tos') is not empty %} is-invalid{% endif %}"
+                                                                   required="required"
+                                                                   id="tosModal"
+                                                                   name="tos">
+                                                        {% endblock %}
+
+                                                        {% block zer_outofstock_items_modal_confirm_tos_control_label %}
+                                                            <label for="tosModal"
+                                                                   class="checkout-confirm-tos-label custom-control-label">
+                                                                {{ 'checkout.confirmTermsText'|trans({
+                                                                    '%url%': path('frontend.cms.page', { id: config('core.basicInformation.tosPage') })
+                                                                })|raw }}
+                                                            </label>
+                                                        {% endblock %}
+                                                    </div>
+                                                {% endblock %}
+
+                                                {% block zer_outofstock_items_modal_confirm_revocation_control %}
+                                                    {% if page.showRevocation() %}
+                                                        <div class="form-check">
+                                                            {% block zer_outofstock_items_modal_confirm_revocation_control_checkbox %}
+                                                                <input type="checkbox"
+                                                                       class="checkout-confirm-revocation-checkbox form-check-input{% if formViolations.getViolations('/revocation') is not empty %} is-invalid{% endif %}"
+                                                                       required="required"
+                                                                       id="revocationModal"
+                                                                       name="revocation">
+                                                            {% endblock %}
+
+                                                            {% block zer_outofstock_items_modal_confirm_revocation_control_label %}
+                                                                <label for="revocationModal"
+                                                                       class="checkout-confirm-revocation-label custom-control-label">
+                                                                    {{ 'checkout.confirmRevocationTerms'|trans() }}
+                                                                </label>
+                                                            {% endblock %}
+                                                        </div>
+                                                    {% endif %}
+                                                {% endblock %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endblock %}
+                            </form>
+                        </div>
+                    {% endblock %}
+
+                    {% block zer_outofstock_items_modal_footer %}
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
+                                {{ "zerifaStockWise.checkout.modal.cancelButton"|trans }}
+                            </button>
+                            <button type="submit"
+                                    class="btn btn-primary"
+                                    form="orderAvailableForm">
+                                {{ "zerifaStockWise.checkout.modal.submitButton"|trans }}
+                            </button>
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %} 

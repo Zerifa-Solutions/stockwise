@@ -1,0 +1,33 @@
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/index.html.twig' %}
+
+{% set stockStatus = page.extensions.zerStockWiseStockStatus %}
+
+{% block page_checkout_main %}
+    {{ parent() }}
+
+    {% if stockStatus.outOfStockProducts|length > 0 %}
+        {% set PRODUCT_LINE_ITEM_TYPE = constant('Shopware\\Core\\Checkout\\Cart\\LineItem\\LineItem::PRODUCT_LINE_ITEM_TYPE') %}
+
+        {% sw_include '@Storefront/storefront/component/checkout/zer-outofstock-items-modal.html.twig' with {
+            outOfStockProducts: page.cart.lineItems|filter(
+                item => item.type == PRODUCT_LINE_ITEM_TYPE and item.id in stockStatus.outOfStockProducts
+            )
+        } %}
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_aside_actions %}
+    {% if stockStatus.availableProducts|length > 0 and stockStatus.outOfStockProducts|length > 0 %}
+        <div class="d-grid mt-2" data-zer-stock-wise-checkout="true">
+            <button type="button"
+                        class="btn btn-primary btn-lg"
+                        title="{{ "zerifaStockWise.checkout.proceedWithAvailableItems.buttonTitle"|trans }}"
+                        data-bs-toggle="modal"
+                        data-bs-target="#zerOutofstockItemsModal">
+                    {{ "zerifaStockWise.checkout.proceedWithAvailableItems.button"|trans }}
+                </button>
+        </div>
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %} 

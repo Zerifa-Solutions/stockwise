@@ -1,0 +1,96 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <imports>
+        <import resource="./services/interfaces.xml"/>
+        <import resource="./services/subscribers.xml"/>
+        <import resource="./services/definitions.xml"/>
+    </imports>
+    <services>
+        <service id="Zerifa\StockWise\Service\AlternativeProduct\CacheService">
+            <argument type="service" id="cache.object"/>
+            <argument type="service" id="Shopware\Core\Framework\Adapter\Cache\CacheInvalidator"/>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Cache\EntityCacheKeyGenerator"/>
+        </service>
+
+        <service id="Zerifa\StockWise\Service\AlternativeProduct\AlternativeProductService">
+            <argument type="service" id="Zerifa\StockWise\Service\AlternativeProduct\CacheServiceInterface"/>
+            <argument type="service" id="Zerifa\StockWise\Service\Product\ProductServiceInterface"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+        </service>
+
+        <service id="Zerifa\StockWise\Service\Product\ProductService">
+            <argument type="service" id="sales_channel.product.repository"/>
+        </service>
+
+        <service id="Zerifa\StockWise\Service\StockNotification\StockNotificationService">
+            <argument type="service" id="zer_stock_notification.repository"/>
+        </service>
+
+        <service id="Zerifa\StockWise\Service\StockNotification\EmailService">
+            <argument type="service" id="Shopware\Core\Content\Mail\Service\MailService"/>
+            <argument type="service" id="mail_template.repository"/>
+            <argument type="service" id="customer.repository"/>
+            <argument type="service" id="product.repository"/>
+        </service>
+
+        <service id="Zerifa\StockWise\Command\CheckStockAndNotifyCommand">
+            <argument type="service" id="Zerifa\StockWise\Service\StockNotification\StockNotificationServiceInterface"/>
+            <argument type="service" id="Zerifa\StockWise\Service\StockNotification\EmailServiceInterface"/>
+            <argument type="service" id="Zerifa\StockWise\Service\Product\ProductServiceInterface"/>
+            <argument type="service" id="sales_channel.repository"/>
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory"/>
+            <argument type="service" id="logger"/>
+
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Zerifa\StockWise\Core\Content\StockNotification\ScheduledTask\SendNotificationTask">
+            <tag name="shopware.scheduled.task"/>
+        </service>
+
+        <service id="Zerifa\StockWise\Core\Content\StockNotification\ScheduledTask\SendNotificationTaskHandler">
+            <argument type="service" id="Symfony\Component\HttpKernel\KernelInterface"/>
+            <argument type="service" id="scheduled_task.repository"/>
+            <argument type="service" id="logger"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="Zerifa\StockWise\Storefront\Element\CrossSelling\CrossSellingCmsElementResolver"
+                 decorates="Shopware\Core\Content\Product\Cms\CrossSellingCmsElementResolver">
+            <argument type="service" id=".inner"/>
+            <argument type="service"
+                      id="Zerifa\StockWise\Service\AlternativeProduct\AlternativeProductServiceInterface"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="translator"/>
+            <tag name="shopware.cms.data_resolver"/>
+        </service>
+
+        <service id="Zerifa\StockWise\Storefront\Controller\CheckoutController" public="true">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="Zerifa\StockWise\Service\StockNotification\StockNotificationServiceInterface"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\CartContextHasher"/>
+
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+
+            <call method="setTwig">
+                <argument type="service" id="twig"/>
+            </call>
+        </service>
+
+        <service id="Zerifa\StockWise\Storefront\Controller\StockNotificationController" public="true">
+            <argument type="service" id="Zerifa\StockWise\Service\StockNotification\StockNotificationServiceInterface"/>
+
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+
+            <call method="setTwig">
+                <argument type="service" id="twig"/>
+            </call>
+        </service>
+    </services>
+</container> 

@@ -1,0 +1,58 @@
+{% sw_extends '@Storefront/storefront/component/buy-widget/buy-widget-form.html.twig' %}
+
+{# Display Alternative Products button in case product isn't available #}
+{% block buy_widget_buy_container %}
+    {% if zerHasAlternativeProducts %}
+        {% set buyable = true %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}
+
+{# Hide Meta data #}
+{% block buy_widget_buy_quantity_container %}
+    {% if not zerHasAlternativeProducts %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{# Hide Meta data #}
+{% block buy_widget_buy_redirect_input %}
+    {% if not zerHasAlternativeProducts %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{# Hide Meta data #}
+{% block buy_widget_buy_product_buy_info %}
+    {% if not zerHasAlternativeProducts %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{# Show Alternative Products and Scroll to the right section #}
+{% block buy_widget_buy_button_container %}
+    {% if zerHasAlternativeProducts %}
+        <div class="out-of-stock-actions">
+            <a href="#{{ zerAlternativeSectionId }}"
+               class="btn btn-primary btn-block btn-show-alternatives"
+                    {% if zerAlternativePdpDisplayType == 'crossselling' %}
+                        role="tab"
+                        aria-controls="{{ zerAlternativeSectionId }}"
+                        aria-selected="false"
+                    {% endif %}
+               data-alternative-products-scroll="true"
+               data-alternative-products-scroll-options='{
+                   "scrollBehavior": "smooth",
+                   "displayType": "{{ zerAlternativePdpDisplayType }}"
+               }'
+               title="{{ "zerifaStockWise.addToCart.buttonTitle"|trans }}">
+                {% block buy_widget_alternatives_button_text %}
+                    {{ "zerifaStockWise.addToCart.button"|trans }}
+                {% endblock %}
+            </a>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

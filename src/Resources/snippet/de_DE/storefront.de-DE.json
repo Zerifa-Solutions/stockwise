@@ -1,0 +1,29 @@
+{
+  "zerifaStockWise": {
+    "alternativeProducts": {
+      "title": "Ähnliche Produkte für %productName%",
+      "replaceButton": "Dieses Produkt wählen",
+      "replaceButtonTitle": "Mit diesem ähnlichen Produkt ersetzen"
+    },
+    "addToCart": {
+      "button": "Ähnliche Produkte anzeigen",
+      "buttonTitle": "Ähnliche verfügbare Produkte ansehen"
+    },
+    "checkout": {
+      "proceedWithAvailableItems": {
+        "button": "Mit verfügbaren Artikeln fortfahren",
+        "buttonTitle": "Bestellung nur mit verfügbaren Artikeln aufgeben"
+      },
+      "modal": {
+        "title": "Nicht verfügbare Artikel überprüfen",
+        "explanation": "Diese Artikel werden aus Ihrem Warenkorb entfernt.",
+        "submitButton": "Mit verfügbaren Artikeln fortfahren",
+        "cancelButton": "Abbrechen"
+      }
+    }
+  },
+  "checkout": {
+    "cart-out-of-stock-error": "Einige Artikel in Ihrem Warenkorb sind nicht vorrätig. Bitte prüfen Sie die ähnlichen Produkte unten oder fahren Sie nur mit verfügbaren Artikeln fort.",
+    "quantity-adjusted-error": "<strong>%productName%</strong>: Menge wurde aufgrund des begrenzten Bestands auf %availableQuantity% angepasst."
+  }
+} 
